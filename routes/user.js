@@ -6,6 +6,17 @@ const routes = express.Router()
 
 routes.post('/add', (req, res) => {
 
+    const user = req.body; 
+
+    bcrypt.hash(user.password, 10, (err, hash) => {
+        if(!err){
+            user.password = hash;
+
+            userModel.create(user).then((u) => {
+                res.json(u)
+            })
+        }
+    })
 })
 
 routes.get('/checklogin', (req, res) => {
